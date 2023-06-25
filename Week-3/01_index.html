@@ -4,36 +4,21 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Todo App</title>
+    <script src="app.js" defer></script>
   </head>
   <body>
-    TOdo title <input type="text" />
-    <br />
-    Todo desc <input type="text" />
-    <br />
-    <button onclick="onPress()">send Todo</button>
-
-    <script>
-      function parsedResponse(data) {
-        console.log(data);
-      }
-
-      function callback(resp) {
-        resp.json().then(parsedResponse);
-      }
-
-      function onPress() {
-        fetch("http://localhost:5000/todos", {
-          method: "POST", //change to GET
-          body: JSON.stringify({
-            title: "gym",
-            description: "go to gym",
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }).then(callback);
-      }
-    </script>
+    <h1>Todo App</h1>
+    <div class="todoContainer">
+      <input id="todoTitle" type="text" placeholder="Todo Title" required />
+      <input
+        id="todoDescription"
+        type="text"
+        placeholder="Todo Description"
+        required
+      />
+      <button id="addTodoBtn">Add Todo</button>
+    </div>
+    <ul id="todoList"></ul>
   </body>
 </html>

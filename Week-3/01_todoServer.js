@@ -99,15 +99,15 @@ app.delete("/todos/:id", (req, res) => {
   });
 });
 
-// for all other routes, return 404
-// app.use((req, res, next) => {
-//   res.status(404).send();
-// });
+app.get("/", (req, res) => {
+  //!if cors is not used
+  res.sendFile(path.join(__dirname, "./index.html"));
+});
 
-// app.get("/", (req, res) => {
-//   //!if cors is not used
-//   res.sendFile(path.join(__dirname, "./index.html"));
-// });
+// for all other routes, return 404
+app.use((req, res, next) => {
+  res.status(404).send();
+});
 
 app.listen(port, () => {
   console.log("Listening..");
