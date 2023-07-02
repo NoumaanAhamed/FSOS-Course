@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Todo App</title>
+    <script defer>
+      document.addEventListener("DOMContentLoaded", () => {
+        const todoContainer = document.getElementById("todoContainer");
+        const todoTitleInput = document.getElementById("todoTitle");
+        const todoDescriptionInput = document.getElementById("todoDescription");
+        const addTodoBtn = document.getElementById("addTodoBtn");
+        const todoList = document.getElementById("todoList");
+
+        function fetchTodos() {
+          fetch("http://localhost:5000/todos")
+            .then((response) => response.json())
+            .then((todos) => {
+              todoList.innerHTML = "";
+              todos.forEach((todo) => {
+                const li = document.createElement("li");
+                li.innerHTML = `
+                  <h3>${todo.title}</h3>
+                  <p>${todo.description}</p>
+                  <button onclick="deleteTodo(${todo.id})">Delete</button>
+                `;
+                todoList.appendChild(li);
+              });
+            })
+            .catch((error) => console.error("Error fetching todos:", error));
+        }
+
+        function addTodo() {
+          const title = todoTitleInput.value;
+          const description = todoDescriptionInput.value;
+
+          if (title.trim() === "") {
+            alert("Please enter a todo title.");
+            return;
+          }
+
+          fetch("http://localhost:5000/todos", {
+            method: "POST",
+            body: JSON.stringify({ title, description }),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then(() => {
+              todoTitleInput.value = "";
+              todoDescriptionInput.value = "";
+              fetchTodos();
+            })
+            .catch((error) => console.error("Error adding todo:", error));
+        }
+
+        function deleteTodo(id) {
+          fetch(`http://localhost:5000/todos/${id}`, {
+            method: "DELETE",
+          })
+            .then(() => fetchTodos())
+            .catch((error) => console.error("Error deleting todo:", error));
+        }
+
+        addTodoBtn.addEventListener("click", addTodo);
+
+        window.deleteTodo = deleteTodo;
+        fetchTodos();
+      });
+    </script>
+  </head>
+  <body>
+    <h1>Todo App</h1>
+    <div class="todoContainer">
+      <input id="todoTitle" type="text" placeholder="Todo Title" required />
+      <input
+        id="todoDescription"
+        type="text"
+        placeholder="Todo Description"
+        required
+      />
+      <button id="addTodoBtn">Add Todo</button>
+    </div>
+    <ul id="todoList"></ul>
+  </body>
+</html>
