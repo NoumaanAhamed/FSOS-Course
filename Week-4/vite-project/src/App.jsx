@@ -1,33 +1,22 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import "./App.css";
 
 function App() {
-  const [todoForToday, setTodoForToday] = React.useState({
-    title: "Go to gym",
-    description: "Hit gym from 7-9",
-    id: 1,
-  });
+  const [x, setX] = useState(Math.random());
+  const [y, setY] = useState({ id: 1, name: "Noumaan", num: 0.5 });
 
-  setInterval(() => {
-    setTodoForToday({
-      title: "Go to gym please please please" + Math.random(),
-      description: "Hit gym from 7-9",
-      id: 2,
-    });
-  }, 10000);
+  setTimeout(() => {
+    // console.log(x);
+    setY({ id: 2, name: "Nayeem", num: Math.random() });
+    // console.log(x);
+  }, 5000);
 
-  console.log(todoForToday.title);
-
-  return <RenderTodo todoForToday={todoForToday}></RenderTodo>;
-}
-
-function RenderTodo(props) {
-  console.log(props);
   return (
-    <div id="mainArea">
-      {props.todoForToday.title}
-      <br />
-      {props.todoForToday.description}
+    <div>
+      <p>{x}</p>
+      <p>{y.id}</p>
+      <p>{y.name}</p>
+      <p>{y.num}</p>
     </div>
   );
 }
